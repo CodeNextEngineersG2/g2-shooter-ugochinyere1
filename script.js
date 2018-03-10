@@ -37,13 +37,88 @@ function setup(){
 	var canvasWidth=500;
     var canvasHeight=400;
 
-var canvas=createCanvas(canvasWidth,canvasHeight);
-canvas.parent("game-screen");
-background(201, 197, 197);
+	canvas=createCanvas(canvasWidth,canvasHeight);
+	gameScreen = select('#game-screen');
+	canvas.parent(gameScreen);
+	background(201, 197, 197);
+	shipColor="#ddfff7";
+	shipDiameter=100;
+	shipSpeed=15;
+	shipX=250;
+	shipY=350;
+
+	bulletDiameter = 20;
+
+	shipShooting = false;
+    
+    alienDiameter =50;
+    alienVelocity =10;
+    alienX= 250;
+    alienY= 100;
 
 
  }
-/* setup()
+
+function draw(){
+	background(201, 197, 197);
+	drawShip();
+
+  if (shipShooting== true) {
+  	drawBullet();
+  }
+  drawAlien();
+}
+
+function drawShip(){
+
+    fill(255);
+	ellipse(shipX,shipY,shipDiameter,shipDiameter);
+
+	if( keyIsDown(LEFT_ARROW) && shipX > shipDiameter/2){
+		shipX -= shipSpeed ;
+	}
+
+	else if (keyIsDown(RIGHT_ARROW) && shipX < width- shipDiameter/2){
+		shipX = shipSpeed + shipX ;
+		} 
+
+ }
+
+   function keyPressed(){
+
+		if (keyCode=== 32 && shipShooting==false) {
+
+          bulletX = shipX;
+          bulletY = shipY;
+
+          shipShooting = true;
+		}
+   } 
+
+    function drawBullet(){
+     if (bulletY > 0) {
+    	fill(0,0,0);
+        ellipse( bulletX,bulletY, bulletDiameter, bulletDiameter);
+
+      //snip
+     	bulletY -= 10;
+      
+	 }
+
+	 else{
+
+	 	 shipShooting= false
+	 	}
+
+    }
+
+function drawAlien(){
+
+	fill(200,0,0);
+	ellipse(alienX, alienY, alienDiameter, alienDiameter);
+}
+
+/* DONE setup()
  * This function is called once. Sets up the canvas, accesses HTML elements with
  * select(), and adds event listeners to those elements. Sets initial values of
  * variables by calling resetGame().
